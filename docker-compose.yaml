@@ -1,0 +1,10 @@
+version: "3"    
+
+services:
+        server_api:
+                build: ./app
+                restart: always
+                ports:
+                        - 8000:8000
+                network_mode: host
+                entrypoint: uvicorn main:app --reload
