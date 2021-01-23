@@ -22,35 +22,12 @@ def rozetka_get_buckwheat(bs: BeautifulSoup) -> Iterable[BuckwheatInfo]:
         price = item.select_one(
             'span[class="goods-tile__price-value"]').text.strip()
 
-        yield BuckwheatInfo(title=title, url=url, photo_url=photo_url, price=price)
+        yield BuckwheatInfo(title, url, photo_url, price)
 
 
 ROZETKA_URL = 'https://rozetka.com.ua/krupy/c4628397/sort=cheap;vid-225787=grechka/'
 rozetka = BuckwheatInfoParser(ROZETKA_URL, rozetka_get_buckwheat)
 
-##################################################
-# novus-related stuff
-##################################################
-
-
-def novus_get_buckwheat(bs: BeautifulSoup) -> Iterable[BuckwheatInfo]:
-    return []
-
-
-NOVUS_URL = 'https://novus.zakaz.ua/ru/categories/buckwheat/?sort=price_asc'
-novus = BuckwheatInfoParser(NOVUS_URL, novus_get_buckwheat)
-
-##################################################
-# auchan-related stuff
-##################################################
-
-
-def auchan_get_buckwheat(bs: BeautifulSoup) -> Iterable[BuckwheatInfo]:
-    return []
-
-
-AUCHAN_URL = 'https://auchan.zakaz.ua/uk/categories/buckwheat-auchan/?sort=price_asc'
-auchan = BuckwheatInfoParser(AUCHAN_URL, auchan_get_buckwheat)
 
 ##################################################
 # fozzyshop-related stuff
@@ -58,8 +35,54 @@ auchan = BuckwheatInfoParser(AUCHAN_URL, auchan_get_buckwheat)
 
 
 def fozzyshop_get_buckwheat(bs: BeautifulSoup) -> Iterable[BuckwheatInfo]:
-    return []
-
+    items = bs.find_all('div', class_='js-product-miniature-wrapper')
+    for item in items:
+        header = item.select_one('a')
+        title, url = header.img['alt'], header['href']
+        photo_url = header.img['src']
+        price = item.select_one('span[class="product-price"]')['content']
+        weight = item.select_one('div[class="product-reference text-muted"]').a.string
+        yield BuckwheatInfo(title, url, photo_url, price, weight)
 
 FOZZYSHOP_URL = 'https://fozzyshop.ua/ru/300143-krupa-grechnevaya?order=product.price.asc'
 fozzyshop = BuckwheatInfoParser(FOZZYSHOP_URL, fozzyshop_get_buckwheat)
+
+
+##################################################
+# zakaz.ua-related stuff
+# (a common platform for all of the below)
+##################################################
+
+
+def zakazua_get_buckwheat(shop: str):
+    def _(bs):
+        items = bs.find_all('div', class_='products-box__list-item')
+        for item in items:
+            title = item.select_one('a')['title']
+            url = r'https://' + shop + r'.zakaz.ua' + item.select_one('a')['href']
+            photo_url = item.select_one('a > div > img')['src']
+            price = item.find('span', class_='Price__value_caption').text
+            weight = item.find('div', class_='product-tile__weight').string
+            yield BuckwheatInfo(title, url, photo_url, price, weight)
+    
+    return _
+
+
+
+##################################################
+# novus-related stuff
+##################################################
+
+
+NOVUS_URL = 'https://novus.zakaz.ua/ru/categories/buckwheat/?sort=price_asc'
+novus = BuckwheatInfoParser(NOVUS_URL, zakazua_get_buckwheat(r'novus'))
+
+
+##################################################
+# auchan-related stuff
+##################################################
+
+
+AUCHAN_URL = 'https://auchan.zakaz.ua/uk/categories/buckwheat-auchan/?sort=price_asc'
+auchan = BuckwheatInfoParser(AUCHAN_URL, zakazua_get_buckwheat(r'auchan'))
+

@@ -1,11 +1,11 @@
 from dataclasses import dataclass
 from typing import Callable, Iterable
 import re
+import html
 
 from bs4 import BeautifulSoup
 from requests import Response
 import requests
-
 
 
 @dataclass
@@ -26,26 +26,43 @@ class BuckwheatInfoParser:
 
     url: str
     get_info: Callable[[BeautifulSoup], Iterable[BuckwheatInfo]]
-    page: Response = None
 
+    # download and parse the goods
+    # without any caching(TODO?)
     def parse(self) -> Iterable[BuckwheatInfo]:
-        if self.page is None:
-            self.page = requests.get(self.url)
-        
-        bs = BeautifulSoup(self.page.content, 'html.parser')
+        bs = BeautifulSoup(requests.get(self.url).content, 'html.parser')
 
         items = list(self.get_info(bs))
         for item in items:
-            item.weight = self.process_weight(item.title)
+            item.weight = self.process_weight(item.title if item.weight is None else item.weight)
             item.price = self.process_price(item.price)
 
         return items
 
     @staticmethod
     def process_weight(title):
-        expr = re.findall(BuckwheatInfoParser.WEIGHT_RE, title)
-        return expr
+        def units(s, sublst):
+            for el in sublst:
+                if el in s: return el
+
+        def num(title):
+            unit = units(title, ['шт', 'кг', 'г'])
+            mult = { 'шт' : 1, 'кг' : 1, 'г' : 1e-3 }
+
+            if unit is not None:
+                return float(title.split(unit)[0].strip().replace(',', '.')) * mult[unit] 
+            else:
+                return float(title.strip().replace(',', '.'))
+
+        expr = re.findall(r'[0-9].*(?:г|кг|шт)', title)[0].lower()
+        mul = units(expr, ['*', 'x', 'х'])
+
+        if mul is not None:
+            a, b = expr.split(mul)
+            return num(a) * num(b)
+        else:
+            return num(expr)
 
     @staticmethod
     def process_price(price):
-        return price
+        return float(price.replace(u'\xa0', u'').replace(' ', ''))
