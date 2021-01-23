@@ -8,7 +8,7 @@ def process(shops, sortkeyf=None, getf=None):
 
     return [
         {
-            name: sorted(getf(list(jsonify(bws))), key=sortkeyf) for name, bws in shop.items()
+            name: getf(sorted(list(jsonify(bws)), key=sortkeyf)) for name, bws in shop.items()
         } 
         for shop in shops
     ]

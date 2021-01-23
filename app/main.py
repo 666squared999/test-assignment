@@ -16,7 +16,7 @@ async def bw(wmin: float = None, wmax: float = None, allres: bool = False):
         'auchan': await auchan.parse(),
     }]
 
-    getf = lambda bws: bws[:1] if allres is False else lambda bws: bws
+    getf = (lambda bws: bws[:1]) if allres is False else (lambda bws: bws)
     wmin = 0.0 if wmin is None else wmin
     wmax = float('inf') if wmax is None else wmax
 
