@@ -1,8 +1,9 @@
 version: "3"    
 
 services:
-        server_api:
-                build: ./app
-                restart: always
-                network_mode: host
-                entrypoint: uvicorn main:app --reload
+    server_api:
+        build: ./app
+        restart: always
+        network_mode: host
+        entrypoint: ["sh", "-c"]
+        command: ["cd src && uvicorn main:app --reload"]
