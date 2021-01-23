@@ -68,4 +68,4 @@ class BuckwheatInfoParser:
 
     @staticmethod
     def process_price(price):
-        return float(price.replace(u'\xa0', u'').replace(' ', ''))
+        return float(price.replace(u'\xa0', u'').replace(' ', '').replace(',', '.'))
