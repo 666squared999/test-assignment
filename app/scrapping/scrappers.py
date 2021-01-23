@@ -55,7 +55,7 @@ fozzyshop = BuckwheatInfoParser(FOZZYSHOP_URL, fozzyshop_get_buckwheat)
 
 
 def zakazua_get_buckwheat(shop: str):
-    def _(bs):
+    def _(bs: BeautifulSoup) -> Iterable[BuckwheatInfo]:
         items = bs.find_all('div', class_='products-box__list-item')
         for item in items:
             title = item.select_one('a')['title']

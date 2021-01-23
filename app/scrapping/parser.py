@@ -1,7 +1,7 @@
 from dataclasses import dataclass
 from typing import Callable, Iterable
 import re
-import html
+import aiohttp
 
 from bs4 import BeautifulSoup
 from requests import Response
@@ -19,18 +19,21 @@ class BuckwheatInfo:
     weight: float  = None # in kilograms
 
 
-
-@dataclass
 class BuckwheatInfoParser:
     WEIGHT_RE = re.compile(r'[0-9].*(?:г|кг|шт)')
 
-    url: str
-    get_info: Callable[[BeautifulSoup], Iterable[BuckwheatInfo]]
+    def __init__(self, url: str, get_info: Callable[[BeautifulSoup], Iterable[BuckwheatInfo]]):
+        self.url = url
+        self.get_info = get_info
+        self.session = aiohttp.ClientSession()
+
+    async def __del__(self):
+        await self.session.close()
 
     # download and parse the goods
-    # without any caching(TODO?)
-    def parse(self) -> Iterable[BuckwheatInfo]:
-        bs = BeautifulSoup(requests.get(self.url).content, 'html.parser')
+    async def parse(self) -> Iterable[BuckwheatInfo]:
+        response = await self.session.get(self.url)
+        bs = BeautifulSoup(await response.text(), 'html.parser')
 
         items = list(self.get_info(bs))
         for item in items:
