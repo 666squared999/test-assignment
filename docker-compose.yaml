@@ -5,5 +5,8 @@ services:
         build: .
         restart: always
         network_mode: host
+        volumes:
+            - ./src:/app/src
+            - ./tests:/app/tests
         container_name: api-grechka
         command: build
