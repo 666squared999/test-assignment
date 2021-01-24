@@ -1,9 +1,8 @@
 FROM python:3.9-slim-buster
 
 RUN mkdir ./app
-COPY ./src ./app/src
-COPY ./tests ./app/tests
 
+# copy only static data needed to build
 COPY ./requirements.txt ./app/requirements.txt
 COPY ./scripts/docker_entry.sh ./app/entry.sh
 
