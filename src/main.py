@@ -6,15 +6,14 @@ import utils
 
 app = FastAPI()
 
-
 @app.get("/buckwheat")
 async def bw(wmin: float = None, wmax: float = None, allres: bool = False):
-    shops = [{
-        'rozetka': await rozetka.parse(),
-        'fozzyshop': await fozzyshop.parse(),
-        'novus': await novus.parse(),
-        'auchan': await auchan.parse(),
-    }]
+    shops = [{ name : await shop.parse() } for name, shop in {
+        'rozetka': await rozetka(),
+        'fozzyshop': await fozzyshop(),
+        'novus': await novus(),
+        'auchan': await auchan(),
+    }.items()]
 
     getf = (lambda bws: bws[:1]) if allres is False else (lambda bws: bws)
     wmin = 0.0 if wmin is None else wmin
