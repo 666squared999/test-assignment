@@ -22,7 +22,7 @@ class BuckwheatInfo:
 class BuckwheatInfoParser:
     WEIGHT_RE = re.compile(r'[0-9].*(?:г|кг|шт)')
 
-    def __init__(self, url: str, get_info: Callable[[BeautifulSoup], Iterable[BuckwheatInfo]]):
+    async def __init__(self, url: str, get_info: Callable[[BeautifulSoup], Iterable[BuckwheatInfo]]):
         self.url = url
         self.get_info = get_info
         self.session = aiohttp.ClientSession()

@@ -26,7 +26,7 @@ def rozetka_get_buckwheat(bs: BeautifulSoup) -> Iterable[BuckwheatInfo]:
 
 
 ROZETKA_URL = 'https://rozetka.com.ua/krupy/c4628397/sort=cheap;vid-225787=grechka/'
-rozetka = BuckwheatInfoParser(ROZETKA_URL, rozetka_get_buckwheat)
+async def rozetka(): return await BuckwheatInfoParser(ROZETKA_URL, rozetka_get_buckwheat)
 
 
 ##################################################
@@ -45,7 +45,7 @@ def fozzyshop_get_buckwheat(bs: BeautifulSoup) -> Iterable[BuckwheatInfo]:
         yield BuckwheatInfo(title, url, photo_url, price, weight)
 
 FOZZYSHOP_URL = 'https://fozzyshop.ua/ru/300143-krupa-grechnevaya?order=product.price.asc'
-fozzyshop = BuckwheatInfoParser(FOZZYSHOP_URL, fozzyshop_get_buckwheat)
+async def fozzyshop(): return await BuckwheatInfoParser(FOZZYSHOP_URL, fozzyshop_get_buckwheat)
 
 
 ##################################################
@@ -75,7 +75,7 @@ def zakazua_get_buckwheat(shop: str):
 
 
 NOVUS_URL = 'https://novus.zakaz.ua/ru/categories/buckwheat/?sort=price_asc'
-novus = BuckwheatInfoParser(NOVUS_URL, zakazua_get_buckwheat(r'novus'))
+async def novus(): return await BuckwheatInfoParser(NOVUS_URL, zakazua_get_buckwheat(r'novus'))
 
 
 ##################################################
@@ -84,5 +84,5 @@ novus = BuckwheatInfoParser(NOVUS_URL, zakazua_get_buckwheat(r'novus'))
 
 
 AUCHAN_URL = 'https://auchan.zakaz.ua/uk/categories/buckwheat-auchan/?sort=price_asc'
-auchan = BuckwheatInfoParser(AUCHAN_URL, zakazua_get_buckwheat(r'auchan'))
+async def auchan(): return await BuckwheatInfoParser(AUCHAN_URL, zakazua_get_buckwheat(r'auchan'))
 

@@ -16,8 +16,7 @@ def test_process_weight():
         800 г х 5 шт
         1,0 кг
         за 1 кг
-        5*80г
-        400г х16""".split('\n')
-    results = [1, 0.25, 0.5, 0.4, 50, 4, 1, 1, 0.4, 6.4]
+        5*80г""".split('\n')
+    results = [1, 0.25, 0.5, 0.4, 50, 4, 1, 1, 0.4]
 
     assert [BuckwheatInfoParser.process_weight(el) for el in input] == results

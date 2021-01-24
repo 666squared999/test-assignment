@@ -2,8 +2,8 @@ version: "3"
 
 services:
     server_api:
-        build: ./app
+        build: .
         restart: always
         network_mode: host
-        entrypoint: ["sh", "-c"]
-        command: ["cd src && uvicorn main:app --reload"]
+        container_name: api-grechka
+        command: build

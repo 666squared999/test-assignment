@@ -22,7 +22,9 @@ def test_process():
     ]
 
     keyf = lambda bw: 1 / bw['weight'] 
-    getf = lambda bws: bws[-1]
+    getf = lambda bws: [bws[-1]]
+
+    print(process(shops, keyf, getf))
 
     assert process(shops, keyf, getf) == [
         {
@@ -30,15 +32,17 @@ def test_process():
                 'title': 'a',
                 'weight': 1,
                 'price_per_kg': 5,
-                'photo_url': 'aa',
-                'page_url': 'aaa'
-            }],
+                'photo_url': 'a',
+                'page_url': 'a'
+            }]
+        },
+        {
             'bshop' : [{
                 'title': 'b',
                 'weight': 1,
                 'price_per_kg': 10,
-                'photo_url': 'bb',
-                'page_url': 'bbb'
-            }],
-        }
+                'photo_url': 'b',
+                'page_url': 'b'
+            }]
+        },
     ]
