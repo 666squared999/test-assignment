@@ -1,5 +1,5 @@
+from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-
 import asyncio
 
 from scrapping import get_rozetka, get_fozzyshop, get_novus, get_auchan, BuckwheatInfo
@@ -11,6 +11,8 @@ app = FastAPI()
 origins = [
     "http://localhost",
     "http://localhost:3000",
+    "https://api-grechka.ml/",
+    "https://grechka.ml/",
     "*",
 ]
 
