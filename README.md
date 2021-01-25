@@ -1,4 +1,4 @@
-# Backend test assignment [![Build Status](http://34.123.0.188:8080/job/Deployment%20Job/badge/icon)](http://34.123.0.188:8080/job/Deployment%20Job/)
+# Backend test assignment [![Build Status](http://34.123.0.188:8080/job/Api%20Grechka/badge/icon)](http://34.123.0.188:8080/job/Api%20Grechka/)
 
 This is our solution to the test assignment of `int20h` hackathon. The task description is [here](https://mcusercontent.com/a90be75a5d6a2bb92a394e975/files/58c87f07-4fd7-4ec9-9119-456d8558f0b3/web_task.pdf) 
 
