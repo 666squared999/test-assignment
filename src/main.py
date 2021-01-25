@@ -1,4 +1,5 @@
-from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
+
 import asyncio
 
 from scrapping import get_rozetka, get_fozzyshop, get_novus, get_auchan, BuckwheatInfo
@@ -6,6 +7,21 @@ from scrapping import get_rozetka, get_fozzyshop, get_novus, get_auchan, Buckwhe
 import utils
 
 app = FastAPI()
+
+origins = [
+    "http://localhost",
+    "http://localhost:3000",
+    "*",
+]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
 rozetka, fozzyshop, novus, auchan = get_rozetka(), get_fozzyshop(), get_novus(), get_auchan()
 
 @app.get("/buckwheat")
