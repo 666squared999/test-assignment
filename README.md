@@ -66,12 +66,12 @@ https://api-grechka.ml/buckwheat?wmin=2&wmax=60&allres=true
 cp .env_exmpl .env
 
 # build and run the server
-docker-compose up 
+./scripts/build.sh 
 
 # runs tests(you don't need to have '.env' to run tests)
 # (works only if previous step was done at least once)
 # (e.g. the container was build)
-docker run -it api-grechka tests
+./scripts/test.sh
 ```
 
 # HOWTO query
