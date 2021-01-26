@@ -61,10 +61,14 @@ https://api-grechka.ml/buckwheat?wmin=2&wmax=60&allres=true
 # HOWTO run
 
 ```
-# builds and runs server
+# insert your frontend addresses into .env_exmpl file
+# and rename it to '.env' file
+cp .env_exmpl .env
+
+# build and run the server
 docker-compose up 
 
-# runs tests
+# runs tests(you don't need to have '.env' to run tests)
 # (works only if previous step was done at least once)
 # (e.g. the container was build)
 docker run -it api-grechka tests

@@ -4,8 +4,6 @@ import re
 import aiohttp
 
 from bs4 import BeautifulSoup
-from requests import Response
-import requests
 
 
 @dataclass
