@@ -1,32 +1,33 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from dotenv import load_dotenv
+
+from pathlib import Path
 import asyncio
+import os
 
 from scrapping import get_rozetka, get_fozzyshop, get_novus, get_auchan, BuckwheatInfo
-
 import utils
 
 app = FastAPI()
 
+load_dotenv(dotenv_path=Path('..') / '.env')
+
 origins = [
-    "http://localhost",
-    "http://localhost:3000",
-    "https://api-grechka.ml/",
-    "https://grechka.ml/",
-    "*",
+    'http://localhost',
+    'http://localhost:3000',
+    *os.getenv('CORS_ALLOWED_HOSTS').split(';') 
 ]
 
 app.add_middleware(
     CORSMiddleware,
     allow_origins=origins,
     allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
 )
 
 rozetka, fozzyshop, novus, auchan = get_rozetka(), get_fozzyshop(), get_novus(), get_auchan()
 
-@app.get("/buckwheat")
+@app.get('/buckwheat')
 async def bw(wmin: float = None, wmax: float = None, allres: bool = False):
     shops = await utils.parse(rozetka, fozzyshop, novus, auchan)
 

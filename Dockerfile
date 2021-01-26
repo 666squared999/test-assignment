@@ -5,11 +5,12 @@ RUN mkdir ./app
 # copy only static data needed to build
 COPY ./requirements.txt ./app/requirements.txt
 COPY ./scripts/docker_entry.sh ./app/entry.sh
+COPY ./.env ./app/.env
 
 WORKDIR /app
 
 RUN apt-get update \
-    && apt-get install gcc -y \
+    && apt-get install build-essential -y \
     && apt-get clean
 
 RUN pip install -r requirements.txt
