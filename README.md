@@ -92,3 +92,25 @@ wmax: float = inf
 allres: float = False 
 ```
 
+## Built With
+
+- [FastAPI](https://fastapi.tiangolo.com/) - high performance, easy to learn, fast to code, ready for production framework
+- [Nginx](https://www.nginx.com/) - high performance load balancer, webserver, reverse proxy
+- [Docker](https://www.docker.com/) - Open platform for developing, shipping, and running applications
+
+## Authors
+
+-   **Vladyslav Stepaniuk** - [VladosK0k0s](https://github.com/VladosK0k0s)
+-   **Anna Kryva** - [anna-kryva](https://github.com/anna-kryva)
+-   **Nikolay Fedurko** - [B1Z0N](https://github.com/B1Z0N)
+-   **Anton Osetrov** - [osetr](https://github.com/osetr)
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
+
+## Acknowledgments
+
+Кожному українцю по гречці!
+
+
